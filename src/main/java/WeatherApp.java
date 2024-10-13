@@ -10,10 +10,10 @@ import java.time.format.DateTimeFormatter;
 public class WeatherApp {
 
     public static void main(String[] args) {
-        // URL, с которого вы хотите получить данные
+        // URL, с которого мы хотим получить данные
         String urlString = "https://api.weather.yandex.ru/graphql/query";
 
-        // Ваш ключ API
+        // Наш ключ API
         String accessKey = "7aad0818-79c3-40db-9709-3afb02e6635f";
 
         // Запрос weatherByPoint
@@ -70,6 +70,14 @@ private static void parseAndPrintWeather(String response) {
     JSONObject jsonResponse = new JSONObject(response);
     JSONObject now = jsonResponse.getJSONObject("data").getJSONObject("weatherByPoint").getJSONObject("now");
 
+    // Получение текущей даты и времени
+    LocalDateTime currentDateTime = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    String formattedDateTime = currentDateTime.format(formatter);
+
+    // Вывод даты и времени
+    System.out.println("\nCurrent Date and Time: " + formattedDateTime);
+
     // Извлечение данных о погоде
     double temperature = now.getDouble("temperature");
     double humidity = now.getDouble("humidity");
@@ -87,12 +95,6 @@ private static void parseAndPrintWeather(String response) {
     System.out.println("Wind Speed: " + windSpeed + " m/s");
     System.out.println("Cloudiness: " + cloudiness);
 
-    // Получение текущей даты и времени
-    LocalDateTime currentDateTime = LocalDateTime.now();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    String formattedDateTime = currentDateTime.format(formatter);
 
-    // Вывод даты и времени
-    System.out.println("\nCurrent Date and Time: " + formattedDateTime);
 }
 }
